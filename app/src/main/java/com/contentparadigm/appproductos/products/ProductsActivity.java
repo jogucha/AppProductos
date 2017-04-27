@@ -1,4 +1,4 @@
-package com.contentparadigm.appproductos;
+package com.contentparadigm.appproductos.products;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.contentparadigm.appproductos.products.presentation.ProductsFragment;
+import com.contentparadigm.appproductos.R;
 
 public class ProductsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
@@ -25,7 +25,7 @@ public class ProductsActivity extends AppCompatActivity {
 
     private void setUpProductsFragment(){
         if (mProductsFragment == null){
-            mProductsFragment = ProductsFragment.newInstance(null, null);
+            //mProductsFragment = ProductsFragment.newInstance();
             getSupportFragmentManager().beginTransaction().add(R.id.products_container, mProductsFragment).commit();
         }
     }

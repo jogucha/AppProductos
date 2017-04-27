@@ -4,7 +4,7 @@
     android:id="@+id/refresh_layout"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context="com.contentparadigm.appproductos.products.presentation.ProductsFragment">
+    tools:context="com.contentparadigm.appproductos.products.ProductsFragment">
     <RelativeLayout
         android:id="@+id/products_content"
         android:layout_width="match_parent"

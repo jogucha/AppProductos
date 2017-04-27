@@ -20,6 +20,45 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="8dp">
 
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:id="@+id/product_featured_image"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="8dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/product_name"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/product_featured_image"
+            android:maxLength="65"
+            android:maxLines="1"
+            android:text="New Text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="16sp"
+            tools:text="Piperacina compuesta"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/product_price"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="small text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="?colorPrimary"
+            tools:text="$44"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/units_in_stock"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/product_name"
+            android:layout_toRightOf="@id/product_featured_image"
+            android:text="New Text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            tools:text="20 u."/>
+
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
