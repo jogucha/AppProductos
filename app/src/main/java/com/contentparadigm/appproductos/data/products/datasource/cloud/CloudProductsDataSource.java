@@ -2,6 +2,7 @@ package com.contentparadigm.appproductos.data.products.datasource.cloud;
 
 import android.os.Handler;
 
+import com.contentparadigm.appproductos.products.domain.critera.ProductCriteria;
 import com.contentparadigm.appproductos.products.domain.model.Product;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class CloudProductsDataSource implements ICloudProductsDataSource {
         API_DATA.put(newProduct.getCode(), newProduct);
     }
     @Override
-    public void getProducts(final ProductServiceCallBack callback) {
+    public void getProducts(final ProductServiceCallBack callback, ProductCriteria criteria) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

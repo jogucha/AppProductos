@@ -18,7 +18,7 @@ public class MemoryProductsDataSource implements IMemoryProductsDataSource {
     @Override
     public List<Product> find(ProductCriteria criteria) {
         ArrayList<Product> products = new ArrayList(mCachedProducts.values());
-        return products;
+        return criteria.match(products);
     }
 
     @Override

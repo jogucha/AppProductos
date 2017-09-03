@@ -25,7 +25,7 @@ public class ProductsActivity extends AppCompatActivity {
 
     private void setUpProductsFragment(){
         if (mProductsFragment == null){
-            //mProductsFragment = ProductsFragment.newInstance();
+            mProductsFragment = ProductsFragment.newInstance();
             getSupportFragmentManager().beginTransaction().add(R.id.products_container, mProductsFragment).commit();
         }
     }

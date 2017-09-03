@@ -31,13 +31,13 @@ public class ProductsRepository implements IProductsRepository {
     }
 
     @Override
-    public void getProducts(final GetProductsCallBack callback) {
+    public void getProducts(final GetProductsCallBack callback ,final ProductCriteria criteria) {
         if (!mMemoryProductsDataSource.mapIsNull() && !mReload){
-            getProductsFromMemory(callback);
+            getProductsFromMemory(callback, criteria);
             return;
         }
         if (mReload){
-            getProductsFromServer(callback);
+            getProductsFromServer(callback, criteria);
         }
         else {
             List<Product> products = mMemoryProductsDataSource.find(new ProductCriteria() {
@@ -47,7 +47,7 @@ public class ProductsRepository implements IProductsRepository {
                 }
             });
             if (products.size() > 0) callback.onProductsLoaded(products);
-            else getProductsFromServer(callback);
+            else getProductsFromServer(callback, criteria);
         }
 
     }
@@ -57,28 +57,23 @@ public class ProductsRepository implements IProductsRepository {
         mReload = true;
     }
 
-    private void getProductsFromMemory (GetProductsCallBack callback){
-        callback.onProductsLoaded(mMemoryProductsDataSource.find(new ProductCriteria() {
-            @Override
-            public List<Product> match(List<Product> products) {
-                return null;
-            }
-        }));
+    private void getProductsFromMemory (GetProductsCallBack callback, ProductCriteria criteria){
+        callback.onProductsLoaded(mMemoryProductsDataSource.find(criteria));
     }
-    private void getProductsFromServer (final GetProductsCallBack callback) {
+    private void getProductsFromServer (final GetProductsCallBack callback, final ProductCriteria criteria) {
         if (!isOnline()) callback.onDataNotAvailable("No hay conexión de Red.");
         mCloudProductsDataSource.getProducts(new ICloudProductsDataSource.ProductServiceCallBack(){
             @Override
             public void onLoaded(List<Product> products) {
                 refreshMemoryDataSource(products);
-                getProductsFromMemory(callback);
+                getProductsFromMemory(callback, criteria);
             }
 
             @Override
             public void onError(String error) {
                 callback.onDataNotAvailable(error);
             }
-        });
+        }, null);
     }
 
     private boolean isOnline () {

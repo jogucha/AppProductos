@@ -1,5 +1,6 @@
 package com.contentparadigm.appproductos.data.products;
 
+import com.contentparadigm.appproductos.products.domain.critera.ProductCriteria;
 import com.contentparadigm.appproductos.products.domain.model.Product;
 
 import java.util.List;
@@ -14,6 +15,6 @@ public interface IProductsRepository {
         void onDataNotAvailable(String error);
     }
 
-    void getProducts(GetProductsCallBack callback);
+    void getProducts(GetProductsCallBack callback, ProductCriteria criteria);
     void refreshProducts();
 }

@@ -1,5 +1,6 @@
 package com.contentparadigm.appproductos.data.products.datasource.cloud;
 
+import com.contentparadigm.appproductos.products.domain.critera.ProductCriteria;
 import com.contentparadigm.appproductos.products.domain.model.Product;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface ICloudProductsDataSource {
         void onError (String error);
 
     }
-    void getProducts (ProductServiceCallBack callback);
+    void getProducts (ProductServiceCallBack callback, ProductCriteria criteria);
 }

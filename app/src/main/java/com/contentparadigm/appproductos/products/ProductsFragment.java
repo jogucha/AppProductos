@@ -2,9 +2,11 @@ package com.contentparadigm.appproductos.products;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.contentparadigm.appproductos.R;
+import com.contentparadigm.appproductos.di.DependencyProvider;
 import com.contentparadigm.appproductos.products.domain.model.Product;
 
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ public class ProductsFragment extends Fragment implements ProductsMvp.View {
     private String mParam2;
 
     private ProductsAdapter mProductsAdapter;
+    private ProductsPresenter mProductsPresenter;
     private RecyclerView mProductList;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private View mEmptyView;
@@ -43,11 +47,16 @@ public class ProductsFragment extends Fragment implements ProductsMvp.View {
         // Required empty public constructor
     }
 
+    public static ProductsFragment newInstance() {
+        return new ProductsFragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mProductsAdapter = new ProductsAdapter(new ArrayList<Product>(0), mProductItemListener);
+        mProductsPresenter = new ProductsPresenter(DependencyProvider.provideProductsRepository(getActivity()), this);
+        setRetainInstance(true);
     }
 
     @Override
@@ -62,8 +71,22 @@ public class ProductsFragment extends Fragment implements ProductsMvp.View {
         return root;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState == null) mProductsPresenter.loadProducts(false);
+    }
+
+
     private void SetUpProductList(){
         mProductList.setAdapter(mProductsAdapter);
+        final LinearLayoutManager layoutManager = (LinearLayoutManager) mProductList.getLayoutManager();
+        mProductList.addOnScrollListener(new InfinityScrollListener(mProductsAdapter, layoutManager) {
+            @Override
+            public void onLoadMore() {
+                mProductsPresenter.loadProducts(false);
+            }
+        });
         mProductList.setHasFixedSize(true);
     }
 
@@ -117,11 +140,13 @@ public class ProductsFragment extends Fragment implements ProductsMvp.View {
 
     @Override
     public void showLoadMoreIndicator(boolean show) {
-
+        if (!show) mProductsAdapter.dataFinishedLoading();
+        else mProductsAdapter.dataStatedLoading();
     }
 
     @Override
-    public void allowMoreData(boolean show) {
+    public void allowMoreData(boolean allow) {
+        mProductsAdapter.setmMoreData(allow);
 
     }
 }
